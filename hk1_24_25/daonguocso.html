@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Đảo ngược số nguyên</title>
+        <style>
+            .container{
+                border: 2px solid black;
+                padding: 20px;
+                width: 400px;
+                text-align: center;
+                background-color: #f9f9f9;
+            }
+            h1{
+                color: #333;
+                font-size: 24px;
+            }
+            input[type="text"]{
+                width: 90%;
+                padding: 10px;
+                margin: 10px 0;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+            input[type="button"]{
+                background-color: #555;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Đảo ngược số nguyên</h1>
+            <input type="text" id="txtInput" placeholder="Nhập số nguyên dương">
+            <input type="text" id="txtResult" value="Số đảo ngược sẽ hiển thị ở đây" readonly>
+            <input type="button" value="In số đảo ngược" onclick="inSoDaoNguoc()">
+        </div>
+        <script>
+            function inSoDaoNguoc(){
+                var inputElement = document.getElementById("txtInput");
+                var resultElement = document.getElementById("txtResult");
+                var value = inputElement.value.trim();
+
+                if(value === ""){
+                    alert("Nhập vào một số dương");
+                    inputElement.focus();
+                    return;
+                }
+                if(isNaN(value) || parseInt(value) < 0){
+                    alert("Không đúng định dạng số nguyên dương");
+                    inputElement.focus();
+                    return;
+                }
+                var reversedValue ="";
+                for(var i = value.length - 1; i >= 0; i--){
+                    reversedValue += value[i];
+                }
+                resultElement.value = reversedValue;
+            }
+        </script>
+    </body>
+</html>
