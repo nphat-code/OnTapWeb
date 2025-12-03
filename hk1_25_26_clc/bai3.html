@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <input type="text" id="fullname" placeholder="Nhập tên sinh viên"/>
+        <div id="notice"></div>
+        <button id="add" onclick="addStudent();">Thêm sinh viên</button>
+        <ul id="list"></ul>
+        <script>
+            function addStudent(){
+                var inputElement = document.getElementById("fullname");
+                var noticeElement = document.getElementById("notice");
+                var listElement = document.getElementById("list");
+                var studentName = inputElement.value.trim();
+                if(studentName === ""){
+                    noticeElement.innerHTML = "Vui lòng nhập tên";
+                    noticeElement.style.color = "red";
+                }else{
+                    var newLi = document.createElement('li');
+                    newLi.textContent = studentName;
+                    listElement.appendChild(newLi);
+                    inputElement.value = "";
+                    noticeElement.innerHTML = "";
+                    noticeElement.style.color = "";
+                }
+            }
+        </script>
+    </body>
+</html>
