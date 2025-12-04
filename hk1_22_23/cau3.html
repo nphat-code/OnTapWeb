@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <form name="frmPhieudatphong" onsubmit="return kiemTraDuLieu()">
+            <h4>Phiếu đặt phòng</h4>
+            <label>Họ tên *</label><br>
+            <input type="text" name="txtHoten"><br>
+            <label>Địa chỉ</label><br>
+            <input type="text" name="txtDiachi"><br>
+            <label>Số chứng minh nhân dân *</label><br>
+            <input type="text" name="txtcmnd"><br>
+            <label>Mức giá</label><br>
+            <select name="cboMucgia">
+                <option value="a">Loại thường</option>
+                <option value="b">Loại sang trọng</option>
+                <option value="c">Loại đặc biệt</option>
+            </select><br>
+            <label>Ngày thuê</label><br>
+            <input type="date" name="dateNgaythue"><br>
+            <label>Ngày trả</label><br>
+            <input type="date" name="dateNgaytra"><br>
+            <label>Dịch vụ đi kèm</label><br>
+            <input type="checkbox" name="chkAnsang">Ăn sáng<br>
+            <input type="checkbox" name="chkGiatui">Giặt ủi<br>
+            <input type="checkbox" name="chkBaobuoisang">Báo buổi sáng<br>
+            <label>Tiền thuê phòng</label><br>
+            <input type="text" name="txtTienthuephong">VNĐ<br>
+            <input type="button" name="btnTinhdongia" value="Tính đơn giá" onclick="tinhDonGia()">
+            <input type="submit" name="subDangky" value="Đăng ký">
+        </form>
+        <script>
+            function kiemTraDuLieu(){
+                const hoten = document.getElementsByName("txtHoten")[0];
+                const cmnd = document.getElementsByName("txtcmnd")[0];
+                const mucgia = document.getElementsByName("cboMucgia")[0];
+                if(hoten.value.trim() === ""){
+                    alert("Họ tên không được rỗng");
+                    hoten.focus();
+                    return false;
+                }
+                if(cmnd.value.trim() === ""){
+                    alert("CMND không được rỗng");
+                    cmnd.focus();
+                    return false;
+                }
+                if(isNaN(cmnd.value)){
+                    alert("CMND phải là số");
+                    cmnd.focus();
+                    return false;
+                }
+            }
+            function tinhDonGia(){
+                var ngaythue = new Date(document.getElementsByName("dateNgaythue")[0].value);
+                var ngaytra = new Date(document.getElementsByName("dateNgaytra")[0].value);
+                var tienthue = document.getElementsByName("txtTienthuephong")[0];
+                var mucgia = document.getElementsByName("cboMucgia")[0];
+                var songaythue = 0;
+                if(ngaythue === "" || ngaytra === "" || ngaytra === ngaythue){
+                    songaythue = 1;
+                }
+                if(ngaytra < ngaythue){
+                    alert("Ngay tra phai sau ngay thue");
+                    return;
+                }
+                if(ngaytra > ngaythue){
+                    songaythue = Math.ceil((ngaytra - ngaythue)/(1000 * 60 * 60 * 24));
+                }
+                var dongiamotngay = 0;
+                switch (mucgia.value){
+                    case "a":
+                        dongiamotngay = 150000;
+                        break;
+                    case "b":
+                        dongiamotngay = 300000;
+                        break;
+                    case "c":
+                        dongiamotngay = 500000;
+                        break;
+                }
+                var sodvtinhphi = 0;
+                if(document.getElementsByName("chkAnsang")[0].checked && mucgia.value === "a"){
+                    sodvtinhphi++;
+                }
+                if(document.getElementsByName("chkGiatui")[0].checked){
+                    sodvtinhphi++;
+                }
+                if(document.getElementsByName("chkBaobuoisang")[0].checked){
+                    sodvtinhphi++;
+                }
+                var phantramphidv = sodvtinhphi * 0.05;
+                dongiamotngay += dongiamotngay * phantramphidv;
+                tienthue.value = dongiamotngay * songaythue;
+            }
+            document.addEventListener('DOMContentLoaded', function(){
+                const cboMucgia = document.getElementsByName("cboMucgia")[0];
+                const chkAnsang = document.getElementsByName("chkAnsang")[0];
+                cboMucgia.addEventListener('change', function(){
+                    if(cboMucgia.value === "b" || cboMucgia.value === "c"){
+                        chkAnsang.checked = true;
+                    }else{
+                        chkAnsang.checked = false;
+                    }
+                })
+            });
+        </script>
+    </body>
+</html>
